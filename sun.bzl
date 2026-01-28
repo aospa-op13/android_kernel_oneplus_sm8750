@@ -94,6 +94,7 @@ def define_sun():
         "drivers/input/misc/qcom-hv-haptics.ko",
         "drivers/misc/vibrator/oplus_haptic/oplus_haptic.ko",
         "drivers/misc/vibrator/haptic_feedback/haptic_feedback.ko",
+        "drivers/nfc/oplus_nfc/oplus_nfc.ko",
         "drivers/input/misc/qpnp-power-on.ko",
         "drivers/interconnect/qcom/icc-bcm-voter.ko",
         "drivers/interconnect/qcom/icc-debug.ko",
