@@ -129,3 +129,5 @@ oplus_mdmrst.ko
 olc.ko
 kernel_fb.ko
 qcom-cpufreq-hw.ko
+nvmem_qfprom.ko
+qfprom-sys.ko
