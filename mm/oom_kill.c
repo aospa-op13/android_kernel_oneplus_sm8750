@@ -45,6 +45,7 @@
 #include <linux/init.h>
 #include <linux/mmu_notifier.h>
 #include <linux/cred.h>
+#include <linux/nmi.h>
 
 #include <asm/tlb.h>
 #include "internal.h"
@@ -432,10 +433,15 @@ void dump_tasks(struct oom_control *oc)
 		mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
 	else {
 		struct task_struct *p;
+		int i = 0;
 
 		rcu_read_lock();
-		for_each_process(p)
+		for_each_process(p) {
+			/* Avoid potential softlockup warning */
+			if ((++i & 1023) == 0)
+				touch_softlockup_watchdog();
 			dump_task(p, oc);
+		}
 		rcu_read_unlock();
 	}
 }
@@ -696,6 +702,8 @@ static void wake_oom_reaper(struct timer_list *timer)
 #define OOM_REAPER_DELAY (2*HZ)
 static void queue_oom_reaper(struct task_struct *tsk)
 {
+	bool bypass = false;
+
 	/* mm is already queued? */
 	if (test_and_set_bit(MMF_OOM_REAP_QUEUED, &tsk->signal->oom_mm->flags))
 		return;
@@ -703,6 +711,9 @@ static void queue_oom_reaper(struct task_struct *tsk)
 	get_task_struct(tsk);
 	timer_setup(&tsk->oom_reaper_timer, wake_oom_reaper, 0);
 	tsk->oom_reaper_timer.expires = jiffies + OOM_REAPER_DELAY;
+	trace_android_vh_oom_reaper_delay_bypass(tsk, &bypass);
+	if (bypass)
+		tsk->oom_reaper_timer.expires = jiffies;
 	add_timer(&tsk->oom_reaper_timer);
 }
 
