@@ -5841,9 +5841,6 @@ mm/maccess.c
 mm/madvise.c
 mm/memblock.c
 mm/memcontrol.c
-mm/memfd-ashmem-shim-internal.h
-mm/memfd-ashmem-shim.c
-mm/memfd-ashmem-shim.h
 mm/memfd.c
 mm/memory.c
 mm/memory_hotplug.c
