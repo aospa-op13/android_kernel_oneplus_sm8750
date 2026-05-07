@@ -105,7 +105,6 @@
 #define CORE_HC_SELECT_IN_SDR50	(4 << 19)
 #define CORE_HC_SELECT_IN_HS400	(6 << 19)
 #define CORE_HC_SELECT_IN_MASK	(7 << 19)
-#define CORE_HC_SELECT_IN_SDR50	(4 << 19)
 
 #define CORE_8_BIT_SUPPORT	BIT(18)
 #define CORE_3_0V_SUPPORT	BIT(25)
@@ -1021,7 +1020,7 @@ static int msm_init_cm_dll(struct sdhci_host *host,
 		}
 
 		if (msm_host->dll_lock_bist_fail_wa &&
-			(timing == MMC_TIMING_UHS_SDR104 ||
+			(curr_ios.timing == MMC_TIMING_UHS_SDR104 ||
 				!mmc_card_is_removable(mmc))) {
 			writel_relaxed((readl_relaxed(host->ioaddr +
 				msm_offset->core_dll_config_2)
