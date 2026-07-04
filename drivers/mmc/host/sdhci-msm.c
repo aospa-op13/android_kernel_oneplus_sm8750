@@ -664,7 +664,8 @@ static void msm_set_clock_rate_for_bus_mode(struct sdhci_host *host,
 	msm_host->clk_rate = desired_rate;
 
 	pr_debug("%s: Setting clock at rate %lu at timing %d\n",
-		 mmc_hostname(host->mmc), achieved_rate, timing);
+		 mmc_hostname(host->mmc), achieved_rate,
+		 timing);
 	sdhci_msm_log_str(msm_host, "Setting clock at rate %lu at timing %d\n",
 			clk_get_rate(core_clk), timing);
 }
