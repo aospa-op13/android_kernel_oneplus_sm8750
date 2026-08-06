@@ -7,7 +7,9 @@ def boot_image_opts(
         earlycon_addr = None,
         kernel_vendor_cmdline_extras = ["bootconfig"],
         board_kernel_cmdline_extras = [],
-        board_bootconfig_extras = []):
+        board_bootconfig_extras = [],
+        os_version = "16.0",
+        os_patch_level = "2026-04"):
     return struct(
         boot_image_header_version = boot_image_header_version,
         base_address = base_address,
@@ -18,6 +20,8 @@ def boot_image_opts(
         kernel_vendor_cmdline_extras = kernel_vendor_cmdline_extras,
         board_kernel_cmdline_extras = board_kernel_cmdline_extras,
         board_bootconfig_extras = board_bootconfig_extras,
+        os_version = os_version,
+        os_patch_level = os_patch_level,
     )
 
 def vm_image_opts(

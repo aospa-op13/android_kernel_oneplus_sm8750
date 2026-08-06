@@ -47,6 +47,14 @@ def _define_build_config(
       variant: variant of kernel to build (e.g. "gki")
     """
 
+    os_version_parts = boot_image_opts.os_version.split(".")
+    os_version_major = int(os_version_parts[0])
+    os_version_minor = int(os_version_parts[1]) if len(os_version_parts) > 1 else 0
+
+    os_patch_parts = boot_image_opts.os_patch_level.split("-")
+    os_patch_year = int(os_patch_parts[0])
+    os_patch_month = int(os_patch_parts[1])
+
     gen_config_command = """
       cat << 'EOF' > "$@"
 KERNEL_DIR="msm-kernel"
@@ -63,6 +71,8 @@ SUPER_IMAGE_SIZE=0x%X
 TRIM_UNUSED_MODULES=1
 BUILD_INIT_BOOT_IMG=1
 LZ4_RAMDISK=%d
+OS_VERSION=%d.%d
+OS_PATCH_LEVEL=%d-%d
 [ -z "$$DT_OVERLAY_SUPPORT" ] && DT_OVERLAY_SUPPORT=1
 
 if [ "$$KERNEL_CMDLINE_CONSOLE_AUTO" != "0" ]; then
@@ -81,6 +91,10 @@ EOF
         boot_image_opts.page_size,
         boot_image_opts.super_image_size,
         int(boot_image_opts.lz4_ramdisk),
+        os_version_major,
+        os_version_minor,
+        os_patch_year,
+        os_patch_month,
         boot_image_opts.earlycon_addr,
         " ".join(boot_image_opts.kernel_vendor_cmdline_extras),
     )
@@ -454,6 +468,8 @@ def define_msm_la(
       page_size: kernel page size
       super_image_size: size of super image partition
       lz4_ramdisk: whether to use an lz4-compressed ramdisk
+      os_version: os_version
+      os_patch_level: os_patch_level
     """
 
     if not variant in la_variants:
