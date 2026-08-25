@@ -121,6 +121,7 @@ gh_virt_wdt.ko
 oplusboot.ko
 oplus_ftm_mode.ko
 buildvariant.ko
+cdt_integrity.ko
 oplus_bsp_boot_projectinfo.ko
 boot_mode.ko
 bootloader_log.ko
@@ -132,3 +133,4 @@ kernel_fb.ko
 qcom-cpufreq-hw.ko
 nvmem_qfprom.ko
 qfprom-sys.ko
+oplus_nfc.ko
